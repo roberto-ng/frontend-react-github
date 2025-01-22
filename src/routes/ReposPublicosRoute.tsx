@@ -1,3 +1,4 @@
+import { RepoCard } from "../components/RepoCard";
 import { Spinner } from "../components/Spinner";
 import { usePromise } from "../hooks/usePromise";
 import { GithubApiService } from "../services/GithubApiService";
@@ -22,13 +23,18 @@ export default function ReposPublicosRoute() {
 
     return (
         <div>
-            <ul>
+            <div className="flex flex-wrap justify-center gap-3 max-w-[2000px]">
                 {promise.data?.map((item) => (
-                    <li key={item.node_id} className="text-white">
-                        {item.full_name}
-                    </li>
+                    <RepoCard 
+                        key={item.node_id} 
+                        name={item.name}
+                        fullName={item.full_name}
+                        ownerName={item.owner.login}
+                        description={item.description}
+                        avatar={item.owner.avatar_url}
+                    />
                 ))}
-            </ul>
+            </div>
         </div>
     );
 }
