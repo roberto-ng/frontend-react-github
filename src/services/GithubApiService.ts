@@ -7,6 +7,8 @@ export class GithubApiService {
 
     static async fetchPublicRepos(): Promise<Array<GithubRepo>> {
         const res = await axios.get("https://api.github.com/repositories");
+
+        // validar resposta
         const data = githubRepositoriesResponseSchema.parse(res.data);
         return data;
     }
@@ -14,7 +16,17 @@ export class GithubApiService {
     static async fetchMyRepos(): Promise<Array<GithubRepo>> {
         const url = `https://api.github.com/users/${GithubApiService.githubAccount}/repos`;
         const res = await axios.get(url);
+        
+        // validar resposta 
         const data = githubRepositoriesResponseSchema.parse(res.data);
+        return data;
+    }
+
+    static async fetchRepoDetails(owner: string, repoName: string): Promise<GithubRepoDetails> {
+        const res = await axios.get(`https://api.github.com/repos/${owner}/${repoName}`);
+
+        // validar resposta
+        const data = githubRepoDetailsSchema.parse(res.data);
         return data;
     }
 
@@ -35,7 +47,21 @@ export const githubRepoSchema = z.object({
     full_name: z.string(),
     html_url: z.string(),
     description: z.string().nullish(),
+    owner: githubRepoOwnerSchema,
+});
+
+export type GithubRepoDetails = z.infer<typeof githubRepoDetailsSchema>;
+export const githubRepoDetailsSchema = z.object({
+    id: z.number(),
+    node_id: z.string(),
+    name: z.string(),
+    full_name: z.string(),
+    html_url: z.string(),
+    description: z.string().nullish(),
     languages_url: z.string(),
+    updated_at: z.string(),
+    created_at: z.string(),	
+    language: z.string(),
     owner: githubRepoOwnerSchema,
 });
 
