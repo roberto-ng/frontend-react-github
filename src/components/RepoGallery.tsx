@@ -24,7 +24,7 @@ export default function RepoGallery(props: Props) {
         if (props.repos == null) {
             return [];
         }
-
+        
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
         return props.repos.slice(start, end);
@@ -46,7 +46,7 @@ export default function RepoGallery(props: Props) {
     };
 
     return (
-        <div className="flex flex-1 flex-col items-center gap-10">
+        <div className="flex flex-1 flex-col items-center gap-4">
             <div className="grid w-[90vw] md:w-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-[2200px]">
                 {itemsInPage?.map((item) => (
                     <div key={item.node_id} className="">

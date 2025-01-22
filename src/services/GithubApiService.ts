@@ -30,6 +30,15 @@ export class GithubApiService {
         return data;
     }
 
+    static async queryRepos(name: string): Promise<Array<GithubRepo>> {
+        const query = `?q=${encodeURIComponent(name)}`;
+        const url = "https://api.github.com/search/repositories" + query;
+        console.log({url})
+        const res = await axios.get(url);
+        const data = githubQueryResultSchema.parse(res.data);
+        return data.items;
+    }
+
 }
 
 export type GithubRepoOwner = z.infer<typeof githubRepoOwnerSchema>;
@@ -66,3 +75,7 @@ export const githubRepoDetailsSchema = z.object({
 });
 
 export const githubRepositoriesResponseSchema = z.array(githubRepoSchema);
+
+export const githubQueryResultSchema = z.object({
+    items: z.array(githubRepoSchema),
+});

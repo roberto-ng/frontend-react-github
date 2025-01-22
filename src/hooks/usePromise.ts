@@ -6,7 +6,10 @@ export type PromiseState =
     | "SUCCESS"
     | "ERROR";
 
-export function usePromise<T>(promiseFn: () => Promise<T>) {
+export function usePromise<T>(
+    promiseFn: () => Promise<T>, 
+    dependencyArray: Array<unknown> = [],
+) {
     const [data, setData] = useState<T | null>(null);
     const [state, setState] = useState<PromiseState>("IDLE");
     const [error, setError] = useState<unknown>(null);
@@ -34,7 +37,7 @@ export function usePromise<T>(promiseFn: () => Promise<T>) {
         return () => {
             ignore = true;
         };
-    }, []);
+    }, dependencyArray);
 
     return {
         state: state,

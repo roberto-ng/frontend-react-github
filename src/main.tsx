@@ -8,6 +8,7 @@ import RepoDetails from './routes/RepoDetails'
 import ReposFavoritosRoute from './routes/ReposFavoritosRoute'
 import ReposMeusRoute from './routes/ReposMeusRoute'
 import ReposPublicosRoute from './routes/ReposPublicosRoute'
+import ReposQueryRoute from './routes/ReposQueryRoute'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -33,6 +34,11 @@ createRoot(document.getElementById('root')!).render(
                         <Route
                             path="/repos/favoritos"
                             element={<ReposFavoritosRoute />}
+                        />
+
+                        <Route
+                            path="/repos/query/:nome"
+                            element={<ReposQueryRoute />}
                         />
                     </Route>
 

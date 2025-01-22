@@ -1,3 +1,4 @@
+import BuscaForm from "../components/BuscaForm";
 import RepoGallery from "../components/RepoGallery";
 import { Spinner } from "../components/Spinner";
 import { usePromise } from "../hooks/usePromise";
@@ -23,6 +24,8 @@ export default function ReposPublicosRoute() {
 
     return (
         <div>
+            <BuscaForm />
+
             <RepoGallery repos={promise.data} />
         </div>
     );
