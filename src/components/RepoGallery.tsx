@@ -24,7 +24,7 @@ export default function RepoGallery(props: Props) {
         if (props.repos == null) {
             return [];
         }
-        
+
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
         return props.repos.slice(start, end);
@@ -44,6 +44,16 @@ export default function RepoGallery(props: Props) {
             setCurrentPage(currentPage - 1);
         }
     };
+
+    if (props.repos == null || props.repos.length === 0) {
+        return (
+            <div>
+                <p className="text-white text-xl font-semibold mt-3">
+                    Você ainda não adicionou nenhum repositório aos seus favoritos.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-1 flex-col items-center gap-4">

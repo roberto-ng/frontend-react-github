@@ -30,6 +30,12 @@ export class GithubApiService {
         return data;
     }
 
+    static async fetchContributors(owner: string, repoName: string): Promise<Array<GithubContributor>> {
+        const res = await axios.get(`https://api.github.com/repos/${owner}/${repoName}/contributors`);
+        const data = githubContributorsResponseSchema.parse(res.data);
+        return data;
+    }
+
     static async queryRepos(name: string): Promise<Array<GithubRepo>> {
         const query = `?q=${encodeURIComponent(name)}`;
         const url = "https://api.github.com/search/repositories" + query;
@@ -79,3 +85,13 @@ export const githubRepositoriesResponseSchema = z.array(githubRepoSchema);
 export const githubQueryResultSchema = z.object({
     items: z.array(githubRepoSchema),
 });
+
+export type GithubContributor = z.infer<typeof githubContributorSchema>;
+export const githubContributorSchema = z.object({
+    html_url: z.string(),
+    login: z.string(),
+    id: z.number(),
+    avatar_url: z.string(),
+});
+
+export const githubContributorsResponseSchema = z.array(githubContributorSchema);

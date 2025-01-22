@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { useContext, useMemo } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { Spinner } from "../components/Spinner";
 import { FavoritosContext } from "../contexts/FavoritosContext";
 import { usePromise } from "../hooks/usePromise";
@@ -9,6 +9,7 @@ import { GithubApiService } from "../services/GithubApiService";
 export default function RepoDetails() {
     const { owner, repoName } = useParams();
     const { state, dispatch } = useContext(FavoritosContext);
+    const navigate = useNavigate();
 
     const parametrosInvalidos = owner == null || repoName == null;
 
@@ -19,6 +20,15 @@ export default function RepoDetails() {
 
         return await GithubApiService.fetchRepoDetails(owner, repoName);
     });
+
+    const contribuidoresPromise = usePromise(async () => {
+        if (parametrosInvalidos) {
+            return null;
+        }
+
+        return await GithubApiService.fetchContributors(owner, repoName);
+    });
+
 
     const isFavorite = useMemo(() => {
         if (!promise.isSuccess) {
@@ -47,7 +57,10 @@ export default function RepoDetails() {
                     Parâmetros inválidos
                 </h2>
 
-                <button className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white">
+                <button
+                    className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
+                    onClick={() => navigate("/")}
+                >
                     Voltar
                 </button>
             </div>
@@ -61,7 +74,10 @@ export default function RepoDetails() {
                     Erro ao buscar repositório.
                 </h2>
 
-                <button className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white">
+                <button
+                    className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
+                    onClick={() => navigate("/")}
+                >
                     Voltar
                 </button>
             </div>
@@ -106,7 +122,7 @@ export default function RepoDetails() {
                         alt={`Avatar de ${data.owner.login}`}
                     />
 
-                    <button 
+                    <button
                         className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
                         onClick={toggleFavorite}
                     >
@@ -136,9 +152,33 @@ export default function RepoDetails() {
                             Última data de alteração: {updatedAt}
                         </li>
                     </ul>
-
                 </div>
             </div>
+
+            {(!contribuidoresPromise.isPending) && (
+                <div className="mt-4">
+                    <h1 className="text-white font-bold text-xl m-0">
+                        Contribuidores:
+                    </h1>
+
+                    {(contribuidoresPromise.isError) && (
+                        <p className="text-white">
+                            Erro ao buscar contribuidores do projeto.
+                        </p>
+                    )}
+
+                    {(contribuidoresPromise.isSuccess) && (
+                        <ul className="list-disc">
+                            {contribuidoresPromise.data?.map(c => (
+                                <li key={c.id} className="text-white">
+                                    {c.login}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+                </div>
+            )}
         </div>
     );
 }
