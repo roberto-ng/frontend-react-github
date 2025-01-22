@@ -48,15 +48,15 @@ export default function RepoGallery(props: Props) {
     if (props.repos == null || props.repos.length === 0) {
         return (
             <div>
-                <p className="text-white text-xl font-semibold mt-3">
-                    Você ainda não adicionou nenhum repositório aos seus favoritos.
+                <p className="mt-3 text-xl font-semibold text-white">
+                    Nenhum repositório encontrado.
                 </p>
             </div>
         );
     }
 
     return (
-        <div className="flex flex-1 flex-col items-center gap-4">
+        <div className="flex flex-col items-center flex-1 gap-4">
             <div className="grid w-[90vw] md:w-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-[2200px]">
                 {itemsInPage?.map((item) => (
                     <div key={item.node_id} className="">
@@ -72,21 +72,21 @@ export default function RepoGallery(props: Props) {
 
             </div>
 
-            <div className="flex flex-1 w-full gap-10 justify-between items-center">
+            <div className="flex items-center justify-between flex-1 w-full gap-10">
                 <button 
-                    className="bg-slate-700 hover:bg-slate-500 select-none text-white rounded-full text-3xl aspect-square w-10"
+                    className="w-10 text-3xl text-white rounded-full select-none bg-slate-700 hover:bg-slate-500 aspect-square"
                     onClick={goToPrevious}
                 
                 >
                     {"<"}
                 </button>
 
-                <p className="text-white text-lg">
+                <p className="text-lg text-white">
                     Página {currentPage} de {numberOfPages}
                 </p>
 
                 <button 
-                    className="bg-slate-700 hover:bg-slate-500 select-none text-white rounded-full text-3xl aspect-square w-10"
+                    className="w-10 text-3xl text-white rounded-full select-none bg-slate-700 hover:bg-slate-500 aspect-square"
                     onClick={goToNext}
                 >
                     {">"}
