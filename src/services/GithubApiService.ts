@@ -3,8 +3,17 @@ import { z } from "zod";
 
 export class GithubApiService {
 
+    private static githubAccount = "roberto-ng";
+
     static async fetchPublicRepos(): Promise<Array<GithubRepo>> {
         const res = await axios.get("https://api.github.com/repositories");
+        const data = githubRepositoriesResponseSchema.parse(res.data);
+        return data;
+    }
+
+    static async fetchMyRepos(): Promise<Array<GithubRepo>> {
+        const url = `https://api.github.com/users/${GithubApiService.githubAccount}/repos`;
+        const res = await axios.get(url);
         const data = githubRepositoriesResponseSchema.parse(res.data);
         return data;
     }
@@ -31,7 +40,3 @@ export const githubRepoSchema = z.object({
 });
 
 export const githubRepositoriesResponseSchema = z.array(githubRepoSchema);
-
-function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
