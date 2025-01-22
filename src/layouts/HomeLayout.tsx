@@ -33,7 +33,7 @@ export default function HomeLayout() {
                 />          
             </TabGroup>
 
-            <div className="mt-3">
+            <div className="mt-10">
                 <Outlet />
             </div>
         </div>

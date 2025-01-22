@@ -1,8 +1,34 @@
+import { Spinner } from "../components/Spinner";
+import { usePromise } from "../hooks/usePromise";
+import { GithubApiService } from "../services/GithubApiService";
 
 export default function ReposPublicosRoute() {
+    const promise = usePromise(() => GithubApiService.fetchPublicRepos());
+
+    if (promise.isPending) {
+        return <Spinner />;
+    }
+
+    if (promise.isError) {
+        return (
+            <div>
+                <p className="text-white">
+                    Erro ao buscar repositórios.
+                </p>
+            </div>
+        );
+    
+    }
+
     return (
         <div>
-            <p className="text-white">Listar repositórios públicos</p>
+            <ul>
+                {promise.data?.map((item) => (
+                    <li key={item.node_id} className="text-white">
+                        {item.full_name}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
