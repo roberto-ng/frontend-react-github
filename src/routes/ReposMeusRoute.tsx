@@ -1,3 +1,4 @@
+import RepoGallery from "../components/RepoGallery";
 import { Spinner } from "../components/Spinner";
 import { usePromise } from "../hooks/usePromise";
 import { GithubApiService } from "../services/GithubApiService";
@@ -21,13 +22,7 @@ export default function ReposMeusRoute() {
 
     return (
         <div>
-            <ul>
-                {promise.data?.map((item) => (
-                    <li key={item.node_id} className="text-white">
-                        {item.full_name}
-                    </li>
-                ))}
-            </ul>
+            <RepoGallery repos={promise.data} />
         </div>
     );
 }

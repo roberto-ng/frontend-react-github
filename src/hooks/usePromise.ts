@@ -41,7 +41,7 @@ export function usePromise<T>(promiseFn: () => Promise<T>) {
         data: data,
         error: error,
         isSuccess: state === "SUCCESS",
-        isPending: state === "PENDING",
+        isPending: state === "PENDING" || state === "IDLE",
         isIdle: state === "IDLE",
         isError: state === "ERROR",
     };

@@ -13,7 +13,7 @@ export function RepoCard(props: Props) {
         <div
             className={clsx([
                 "flex justify-between items-center gap-5 px-3 py-1 rounded-md cursor-pointer",
-                "w-full md:w-[400px] h-[200px] bg-slate-700 hover:bg-slate-500"
+                "w-full md:w-[310px] h-[200px] bg-slate-700 hover:bg-slate-500 transition-colors"
             ])}
         >
             <div className="flex flex-1 flex-col gap-5">
@@ -21,15 +21,15 @@ export function RepoCard(props: Props) {
                     {props.name}
                 </h2>
 
-                <p className="text-white">
-                    {props.description?.slice(0, 100)}
+                <p className="text-white max-w-[250px]">
+                    {props.description?.slice(0, 60)}
                 </p>
             </div>
 
             <div className="flex flex-col items-center gap-2">
                 <img
                     src={props.avatar}
-                    className="rounded-full w-[80px] h-[80px] aspect-square object-cover"
+                    className="rounded-full w-[60px] h-[60px] aspect-square object-cover"
                     alt={`Avatar de ${props.ownerName}`}
                 />
 
