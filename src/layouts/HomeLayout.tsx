@@ -9,7 +9,7 @@ export default function HomeLayout() {
     const { pathname } = useLocation();
 
     return (
-        <div className="flex flex-1 px-2 flex-col items-center pt-5 min-h-svh bg-slate-800">
+        <div className="flex flex-col items-center flex-1 px-2 py-5 min-h-svh bg-slate-800">
             <TabGroup>
                 <Tab 
                     title="Repositórios públicos"

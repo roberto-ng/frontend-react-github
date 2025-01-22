@@ -52,13 +52,13 @@ export default function RepoDetails() {
 
     if (parametrosInvalidos) {
         return (
-            <div className="flex flex-1 px-2 flex-col justify-center items-center gap-5 min-w-full min-h-svh bg-slate-800">
-                <h2 className="font-bold text-2xl text-white">
+            <div className="flex flex-col items-center justify-center flex-1 min-w-full gap-5 px-2 min-h-svh bg-slate-800">
+                <h2 className="text-2xl font-bold text-white">
                     Parâmetros inválidos
                 </h2>
 
                 <button
-                    className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
+                    className="px-3 py-1 text-white rounded-md cursor-pointer bg-slate-700 hover:bg-slate-500"
                     onClick={() => navigate("/")}
                 >
                     Voltar
@@ -69,13 +69,13 @@ export default function RepoDetails() {
 
     if (promise.isError) {
         return (
-            <div className="flex flex-1 px-2 flex-col justify-center items-center gap-5 min-w-full min-h-svh bg-slate-800">
-                <h2 className="font-bold text-2xl text-white">
+            <div className="flex flex-col items-center justify-center flex-1 min-w-full gap-5 px-2 min-h-svh bg-slate-800">
+                <h2 className="text-2xl font-bold text-white">
                     Erro ao buscar repositório.
                 </h2>
 
                 <button
-                    className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
+                    className="px-3 py-1 text-white rounded-md cursor-pointer bg-slate-700 hover:bg-slate-500"
                     onClick={() => navigate("/")}
                 >
                     Voltar
@@ -86,7 +86,7 @@ export default function RepoDetails() {
 
     if (promise.isPending) {
         return (
-            <div className="flex flex-1 px-2 flex-col justify-center items-center pt-20 min-w-full min-h-screen bg-slate-800">
+            <div className="flex flex-col items-center justify-center flex-1 min-w-full min-h-screen px-2 pt-20 bg-slate-800">
                 <Spinner />
             </div>
         )
@@ -99,22 +99,22 @@ export default function RepoDetails() {
         .toLocaleString(DateTime.DATETIME_MED, { locale: "pt-BR" });
 
     return (
-        <div className="flex flex-1 px-3 flex-col items-center gap-10 pt-5 min-h-svh bg-slate-800">
-            <div className="flex items-center gap-5 w-full">
+        <div className="flex flex-col items-center flex-1 gap-10 px-3 pt-5 min-h-svh bg-slate-800">
+            <div className="flex items-center w-full gap-5">
                 <Link to="/">
                     <button
-                        className="bg-slate-700 hover:bg-slate-500 select-none text-white rounded-full text-3xl aspect-square w-10"
+                        className="w-10 text-3xl text-white rounded-full select-none bg-slate-700 hover:bg-slate-500 aspect-square"
                     >
                         {"<"}
                     </button>
                 </Link>
 
-                <h1 className="text-white font-bold text-xl m-0">
+                <h1 className="m-0 text-xl font-bold text-white">
                     Detalhes
                 </h1>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-10 justify-between items-center">
+            <div className="flex flex-col justify-between gap-10 md:flex-row">
                 <div className="flex flex-col items-center gap-3 min-w-[200px]">
                     <img
                         src={data.owner.avatar_url}
@@ -123,15 +123,15 @@ export default function RepoDetails() {
                     />
 
                     <button
-                        className="bg-slate-700 hover:bg-slate-500 cursor-pointer rounded-md px-3 py-1 text-white"
+                        className="px-3 py-1 text-white rounded-md cursor-pointer bg-slate-700 hover:bg-slate-500"
                         onClick={toggleFavorite}
                     >
                         {(isFavorite) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
                     </button>
                 </div>
 
-                <div className="flex flex-col gap-5">
-                    <h1 className="text-white font-bold text-3xl">
+                <div className="flex flex-col gap-5 px-4 pb-2 md:px-0">
+                    <h1 className="text-3xl font-bold text-white">
                         {data.name}
                     </h1>
 
@@ -152,33 +152,33 @@ export default function RepoDetails() {
                             Última data de alteração: {updatedAt}
                         </li>
                     </ul>
+
+                    {(!contribuidoresPromise.isPending) && (
+                        <div className="mt-4">
+                            <h1 className="m-0 mb-2 text-xl font-bold text-white">
+                                Contribuidores:
+                            </h1>
+
+                            {(contribuidoresPromise.isError) && (
+                                <p className="text-white">
+                                    Erro ao buscar contribuidores do projeto.
+                                </p>
+                            )}
+
+                            {(contribuidoresPromise.isSuccess) && (
+                                <ul className="list-disc">
+                                    {contribuidoresPromise.data?.map(c => (
+                                        <li key={c.id} className="text-white">
+                                            {c.login}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {(!contribuidoresPromise.isPending) && (
-                <div className="mt-4">
-                    <h1 className="text-white font-bold text-xl m-0">
-                        Contribuidores:
-                    </h1>
-
-                    {(contribuidoresPromise.isError) && (
-                        <p className="text-white">
-                            Erro ao buscar contribuidores do projeto.
-                        </p>
-                    )}
-
-                    {(contribuidoresPromise.isSuccess) && (
-                        <ul className="list-disc">
-                            {contribuidoresPromise.data?.map(c => (
-                                <li key={c.id} className="text-white">
-                                    {c.login}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-
-                </div>
-            )}
         </div>
     );
 }
